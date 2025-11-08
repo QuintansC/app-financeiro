@@ -1,0 +1,61 @@
+const { Router } = require('express');
+const financeService = require('../services/financeService');
+
+const router = Router();
+
+router.get('/dados', async (req, res, next) => {
+  try {
+    const data = await financeService.getAllData();
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/dividas', async (req, res, next) => {
+  try {
+    const created = await financeService.upsertDebt(req.body);
+    res.status(201).json(created);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/dividas/:id', async (req, res, next) => {
+  try {
+    await financeService.deleteDebt(req.params.id);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/salario', async (req, res, next) => {
+  try {
+    const salary = await financeService.updateSalary(req.body);
+    res.json(salary);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/poupanca', async (req, res, next) => {
+  try {
+    const savings = await financeService.updateSavings(req.body);
+    res.json(savings);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/meses', async (req, res, next) => {
+  try {
+    const month = await financeService.updateMonth(req.body);
+    res.status(201).json(month);
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;
+

@@ -1,0 +1,17 @@
+# Dependências
+backend/node_modules/
+mobile/node_modules/
+mobile/.expo/
+
+# Logs
+*.log
+*.err
+
+# Expo
+.expo/
+.expo-shared/
+
+# Sistema
+Thumbs.db
+Desktop.ini
+
