@@ -1,4 +1,4 @@
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3333/api';
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.12:3333/api';
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {

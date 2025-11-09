@@ -46,34 +46,46 @@ export function SummaryCard({ summary }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#222a45',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    borderRadius: 20,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 8,
   },
   title: {
-    color: '#f4f4f4',
-    fontSize: 16,
+    color: '#4B5563',
+    fontSize: 15,
     fontWeight: '600',
+    letterSpacing: 0.2,
   },
   highlight: {
-    color: '#88f2c9',
-    fontSize: 16,
+    color: '#6366F1',
+    fontSize: 18,
     fontWeight: '700',
+    letterSpacing: -0.3,
   },
   line: {
-    color: '#dcdcdc',
-    marginTop: 4,
+    color: '#6B7280',
+    marginTop: 6,
+    fontSize: 13,
+    lineHeight: 20,
   },
   separator: {
     borderBottomWidth: 1,
-    borderColor: '#2f385d',
-    marginVertical: 12,
+    borderColor: '#E5E7EB',
+    marginVertical: 16,
   },
 });
 

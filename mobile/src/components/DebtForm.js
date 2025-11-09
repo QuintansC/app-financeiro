@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { Button } from './Button';
 
 const emptyForm = {
   id: undefined,
@@ -53,16 +53,27 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
       return;
     }
 
+    // Função auxiliar para converter string para número
+    // Suporta tanto ponto quanto vírgula como separador decimal (formato brasileiro)
+    const toNumber = (value) => {
+      if (value === '' || value === null || value === undefined) return 0;
+      
+      // Substituir vírgula por ponto para conversão correta
+      const normalizedValue = String(value).replace(',', '.');
+      const num = Number(normalizedValue);
+      return isNaN(num) ? 0 : num;
+    };
+
     onSubmit?.({
       ...form,
-      totalValue: Number(form.totalValue),
-      paidValue: Number(form.paidValue),
-      installments: Number(form.installments),
-      paidInstallments: Number(form.paidInstallments),
-      installmentValue: Number(form.installmentValue),
+      totalValue: toNumber(form.totalValue),
+      paidValue: toNumber(form.paidValue),
+      installments: toNumber(form.installments),
+      paidInstallments: toNumber(form.paidInstallments),
+      installmentValue: toNumber(form.installmentValue),
       dueDay: form.dueDay ? Number(form.dueDay) : null,
       firstInstallmentValue: form.firstInstallmentValue
-        ? Number(form.firstInstallmentValue)
+        ? toNumber(form.firstInstallmentValue)
         : null,
     });
   }
@@ -75,6 +86,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
         value={form.creditor}
         onChangeText={(text) => updateField('creditor', text)}
         placeholder="Ex: Itaú"
+        placeholderTextColor="#9CA3AF"
       />
 
       <Text style={styles.label}>Valor total</Text>
@@ -83,6 +95,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
         value={form.totalValue}
         onChangeText={(text) => updateField('totalValue', text)}
         placeholder="0,00"
+        placeholderTextColor="#9CA3AF"
         keyboardType="numeric"
       />
 
@@ -92,6 +105,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
         value={form.paidValue}
         onChangeText={(text) => updateField('paidValue', text)}
         placeholder="0,00"
+        placeholderTextColor="#9CA3AF"
         keyboardType="numeric"
       />
 
@@ -103,6 +117,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
             value={form.installments}
             onChangeText={(text) => updateField('installments', text)}
             placeholder="0"
+        placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
           />
         </View>
@@ -113,6 +128,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
             value={form.paidInstallments}
             onChangeText={(text) => updateField('paidInstallments', text)}
             placeholder="0"
+        placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
           />
         </View>
@@ -124,6 +140,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
         value={form.installmentValue}
         onChangeText={(text) => updateField('installmentValue', text)}
         placeholder="0,00"
+        placeholderTextColor="#9CA3AF"
         keyboardType="numeric"
       />
 
@@ -135,6 +152,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
             value={form.dueDay}
             onChangeText={(text) => updateField('dueDay', text)}
             placeholder="0"
+        placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
           />
         </View>
@@ -145,6 +163,7 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
             value={form.firstInstallmentValue}
             onChangeText={(text) => updateField('firstInstallmentValue', text)}
             placeholder="0,00"
+        placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
           />
         </View>
@@ -155,16 +174,26 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
         style={[styles.input, styles.textarea]}
         value={form.notes}
         onChangeText={(text) => updateField('notes', text)}
-        placeholder="Detalhes adicionais"
+        placeholder="Adicione detalhes sobre esta dívida..."
+        placeholderTextColor="#9CA3AF"
         multiline
         numberOfLines={3}
       />
 
       <View style={styles.actions}>
         {onCancel && (
-          <Button title="Cancelar" color="#6c757d" onPress={onCancel} />
+          <Button
+            title="Cancelar"
+            variant="outline"
+            onPress={onCancel}
+            style={styles.cancelButton}
+          />
         )}
-        <Button title="Salvar" onPress={handleSubmit} />
+        <Button
+          title="Salvar"
+          variant="primary"
+          onPress={handleSubmit}
+        />
       </View>
     </View>
   );
@@ -173,17 +202,22 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
 const styles = StyleSheet.create({
   label: {
     fontWeight: '600',
-    marginBottom: 4,
-    marginTop: 12,
+    marginBottom: 8,
+    marginTop: 16,
+    color: '#374151',
+    fontSize: 14,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    borderRadius: 8,
-    padding: 10,
+    borderWidth: 1.5,
+    borderColor: '#D1D5DB',
+    borderRadius: 10,
+    padding: 12,
+    fontSize: 15,
+    backgroundColor: '#FFFFFF',
+    color: '#1F2937',
   },
   textarea: {
-    minHeight: 80,
+    minHeight: 90,
     textAlignVertical: 'top',
   },
   row: {
@@ -197,9 +231,12 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   actions: {
-    marginTop: 16,
+    marginTop: 24,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
+  },
+  cancelButton: {
+    marginRight: 12,
   },
 });
 

@@ -4,7 +4,7 @@
       "id": "itau",
       "creditor": "Itau",
       "totalValue": 887.28,
-      "paidValue": 739.4,
+      "paidValue": 739.28,
       "installments": 12,
       "paidInstallments": 2,
       "installmentValue": 73.94,
@@ -107,6 +107,18 @@
       "dueDay": 11,
       "firstInstallmentValue": null,
       "notes": ""
+    },
+    {
+      "id": "b3009402-63c6-483c-ae0d-c5f6824817ba",
+      "creditor": "Teste",
+      "totalValue": 100,
+      "paidValue": 10,
+      "installments": 10,
+      "paidInstallments": 1,
+      "installmentValue": 10,
+      "dueDay": 11,
+      "firstInstallmentValue": null,
+      "notes": "teste"
     }
   ],
   "salary": {
@@ -117,15 +129,15 @@
   },
   "savings": {
     "savedBalance": 100,
-    "currentGoal": 100,
-    "lastSavedAt": null,
-    "notes": ""
+    "currentGoal": 15000,
+    "lastSavedAt": "2025-11-09T01:40:58.569Z",
+    "notes": "Meta para quitar a casa ou meta de segurança"
   },
   "months": [
     {
       "id": "2026-01",
       "label": "janeiro/2026",
-      "total": 0
+      "total": 2000
     },
     {
       "id": "2026-02",

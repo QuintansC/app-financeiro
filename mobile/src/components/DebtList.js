@@ -16,7 +16,11 @@ function DebtListComponent({ debts = [], onSelect, onDelete }) {
     >
       <View style={styles.header}>
         <Text style={styles.creditor}>{debt.creditor}</Text>
-        <TouchableOpacity onPress={() => onDelete?.(debt.id)}>
+        <TouchableOpacity
+          onPress={() => onDelete?.(debt.id)}
+          style={styles.deleteButton}
+          activeOpacity={0.7}
+        >
           <Text style={styles.delete}>Excluir</Text>
         </TouchableOpacity>
       </View>
@@ -36,34 +40,60 @@ function DebtListComponent({ debts = [], onSelect, onDelete }) {
 
 const styles = StyleSheet.create({
   empty: {
-    color: '#666',
+    color: '#9CA3AF',
+    fontSize: 14,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    padding: 16,
   },
   item: {
     borderWidth: 1,
-    borderColor: '#e3e3e3',
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 8,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    backgroundColor: '#FAFBFC',
+    shadowColor: '#000',
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 10,
   },
   creditor: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#1F2937',
+    letterSpacing: -0.2,
+  },
+  deleteButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#FECACA',
   },
   delete: {
-    color: '#d9534f',
+    color: '#EF4444',
     fontWeight: '600',
+    fontSize: 12,
+    letterSpacing: 0.2,
   },
   line: {
-    color: '#333',
+    color: '#4B5563',
+    fontSize: 14,
+    marginTop: 4,
+    lineHeight: 20,
   },
   value: {
-    fontWeight: '600',
+    fontWeight: '700',
+    color: '#6366F1',
   },
 });
 

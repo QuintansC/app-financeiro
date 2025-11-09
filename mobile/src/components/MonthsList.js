@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { formatCurrency } from '../utils/format';
+import { Button } from './Button';
 
 export function MonthsList({ months = [], onSave }) {
   const [editing, setEditing] = useState(null);
@@ -30,7 +31,7 @@ export function MonthsList({ months = [], onSave }) {
             <Text style={styles.label}>{month.label}</Text>
             <Text style={styles.value}>{formatCurrency(month.total)}</Text>
           </View>
-          <Button title="Editar" onPress={() => startEdit(month)} />
+          <Button title="Editar" variant="outline" size="small" onPress={() => startEdit(month)} />
         </View>
       ))}
 
@@ -41,11 +42,22 @@ export function MonthsList({ months = [], onSave }) {
             style={styles.input}
             value={amount}
             onChangeText={setAmount}
+            placeholder="Ex: 5000,00"
             keyboardType="numeric"
+            placeholderTextColor="#9CA3AF"
           />
           <View style={styles.formActions}>
-            <Button title="Cancelar" color="#6c757d" onPress={() => setEditing(null)} />
-            <Button title="Salvar" onPress={handleSubmit} />
+            <Button
+              title="Cancelar"
+              variant="outline"
+              onPress={() => setEditing(null)}
+              style={styles.cancelButton}
+            />
+            <Button
+              title="Salvar"
+              variant="primary"
+              onPress={handleSubmit}
+            />
           </View>
         </View>
       )}
@@ -58,37 +70,51 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 14,
     borderBottomWidth: 1,
-    borderColor: '#efefef',
+    borderColor: '#E5E7EB',
   },
   label: {
     fontWeight: '600',
+    fontSize: 15,
+    color: '#1F2937',
+    marginBottom: 4,
   },
   value: {
-    color: '#333',
+    color: '#6366F1',
+    fontSize: 16,
+    fontWeight: '700',
   },
   form: {
-    marginTop: 16,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    borderRadius: 10,
+    marginTop: 20,
+    padding: 18,
+    borderWidth: 1.5,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    backgroundColor: '#FAFBFC',
   },
   formTitle: {
-    fontWeight: '600',
-    marginBottom: 8,
+    fontWeight: '700',
+    marginBottom: 12,
+    fontSize: 16,
+    color: '#1F2937',
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 12,
+    borderWidth: 1.5,
+    borderColor: '#D1D5DB',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 16,
+    fontSize: 15,
+    backgroundColor: '#FFFFFF',
+    color: '#1F2937',
   },
   formActions: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
+  },
+  cancelButton: {
+    marginRight: 12,
   },
 });
 

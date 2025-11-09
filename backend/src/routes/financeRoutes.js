@@ -14,7 +14,14 @@ router.get('/dados', async (req, res, next) => {
 
 router.post('/dividas', async (req, res, next) => {
   try {
+    // Log para debug (apenas em desenvolvimento)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📥 Dados recebidos:', JSON.stringify(req.body, null, 2));
+    }
     const created = await financeService.upsertDebt(req.body);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Dívida salva:', JSON.stringify(created, null, 2));
+    }
     res.status(201).json(created);
   } catch (error) {
     next(error);

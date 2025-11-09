@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { formatDate } from '../utils/format';
+import { Button } from './Button';
 
 const emptyForm = {
   savedBalance: '',
@@ -40,7 +41,9 @@ export function SavingsForm({ savings, onSubmit }) {
         style={styles.input}
         value={form.savedBalance}
         onChangeText={(text) => updateField('savedBalance', text)}
+        placeholder="Ex: 10000,00"
         keyboardType="numeric"
+        placeholderTextColor="#9CA3AF"
       />
 
       <Text style={styles.label}>Meta atual</Text>
@@ -48,7 +51,9 @@ export function SavingsForm({ savings, onSubmit }) {
         style={styles.input}
         value={form.currentGoal}
         onChangeText={(text) => updateField('currentGoal', text)}
+        placeholder="Ex: 50000,00"
         keyboardType="numeric"
+        placeholderTextColor="#9CA3AF"
       />
 
       <Text style={styles.label}>Observações</Text>
@@ -56,7 +61,9 @@ export function SavingsForm({ savings, onSubmit }) {
         style={[styles.input, styles.textarea]}
         value={form.notes}
         onChangeText={(text) => updateField('notes', text)}
+        placeholder="Adicione observações sobre sua poupança..."
         multiline
+        placeholderTextColor="#9CA3AF"
       />
 
       {savings?.lastSavedAt && (
@@ -65,7 +72,7 @@ export function SavingsForm({ savings, onSubmit }) {
         </Text>
       )}
 
-      <Button title="Salvar poupança" onPress={handleSubmit} />
+      <Button title="Salvar poupança" variant="primary" onPress={handleSubmit} fullWidth style={styles.submitButton} />
     </View>
   );
 }
@@ -73,23 +80,33 @@ export function SavingsForm({ savings, onSubmit }) {
 const styles = StyleSheet.create({
   label: {
     fontWeight: '600',
-    marginBottom: 4,
-    marginTop: 12,
+    marginBottom: 8,
+    marginTop: 16,
+    color: '#374151',
+    fontSize: 14,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    borderRadius: 8,
-    padding: 10,
+    borderWidth: 1.5,
+    borderColor: '#D1D5DB',
+    borderRadius: 10,
+    padding: 12,
+    fontSize: 15,
+    backgroundColor: '#FFFFFF',
+    color: '#1F2937',
   },
   textarea: {
-    minHeight: 80,
+    minHeight: 90,
     textAlignVertical: 'top',
   },
   lastSaved: {
+    marginTop: 12,
+    marginBottom: 16,
+    color: '#6B7280',
+    fontSize: 13,
+    fontStyle: 'italic',
+  },
+  submitButton: {
     marginTop: 8,
-    marginBottom: 12,
-    color: '#555',
   },
 });
 

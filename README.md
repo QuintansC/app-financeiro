@@ -1,94 +1,156 @@
-# Controle de Gastos – App Multiplataforma
+# Projeto Financeiro
 
-Aplicação pessoal para acompanhar dívidas, salário, metas de poupança e planejamento mensal. O backend em Node.js expõe uma API REST simples com persistência em arquivo JSON e o frontend Expo (React Native) consome esses dados para entregar uma experiência multiplataforma (web/mobile).
+Sistema de gestão financeira pessoal desenvolvido com React Native (Expo) e Node.js.
 
-## Estrutura
+## 🏗️ Estrutura do Monorepo
+
+Este projeto utiliza um monorepo gerenciado pelo **Turbo** para otimizar o desenvolvimento e build.
 
 ```
-Projeto Planilha/
-├── backend/   # API Node/Express
-├── mobile/    # App Expo (React Native)
-└── shared/    # Espaço reservado para módulos compartilhados futuros
+projeto-financeiro/
+├── backend/          # API Node.js com Express e Prisma
+├── mobile/          # App React Native com Expo
+└── package.json     # Configuração do monorepo
 ```
 
-## Backend (Node.js + Express)
+## 📋 Pré-requisitos
 
-1. Acesse a pasta do backend e instale as dependências (já feito na primeira configuração):
+- Node.js >= 18.0.0
+- npm >= 9.0.0
 
-   ```bash
-   cd backend
-   npm install
-   ```
+## 🚀 Início Rápido
 
-2. Crie um arquivo `.env` caso deseje alterar configurações padrão:
+### 1. Instalar dependências
 
-   ```bash
-   PORT=3333
-   DATA_FILE=C:\Users\artur\Projeto Planilha\backend\data\store.json
-   ```
+```bash
+npm install
+```
 
-   Se não criar o arquivo, o servidor usa os valores padrão acima.
+Isso instalará as dependências de todos os workspaces (backend e mobile).
 
-3. Execute em modo desenvolvimento (com recarga automática):
+### 2. Configurar Backend
 
-   ```bash
-   npm run dev
-   ```
+1. Crie um arquivo `.env` em `backend/`:
+```env
+DATABASE_URL="file:./dev.db"
+PORT=3333
+NODE_ENV=development
+```
 
-   A API fica disponível em `http://localhost:3333`. Endpoints principais:
+2. Verifique a configuração do SQLite:
+```bash
+npm run backend:check
+```
 
-   - `GET /api/dados` – retorna dívidas, salário, poupança, meses e um resumo calculado.
-   - `POST /api/dividas` – cria/atualiza uma dívida.
-   - `DELETE /api/dividas/:id` – remove uma dívida.
-   - `POST /api/salario` – atualiza salário/descontos.
-   - `POST /api/poupanca` – atualiza dados da poupança.
-   - `POST /api/meses` – atualiza totais planejados por mês.
+3. Execute as migrations:
+```bash
+cd backend
+npm run prisma:migrate
+npm run prisma:seed
+```
 
-   Os dados ficam gravados em `backend/data/store.json`. O arquivo é criado automaticamente com valores iniciais iguais à planilha.
+### 3. Iniciar o desenvolvimento
 
-## Frontend (Expo / React Native)
+**Iniciar tudo (backend + mobile):**
+```bash
+npm run dev
+```
 
-1. Instale dependências (já concluído na criação do projeto, mas repita se necessário):
+**Apenas backend:**
+```bash
+npm run backend:dev
+```
 
-   ```bash
-   cd mobile
-   npm install
-   ```
+**Apenas mobile:**
+```bash
+npm run mobile:dev
+```
 
-2. Informe a URL da API através de variável pública do Expo. Crie um arquivo `mobile/.env`:
+## 📦 Scripts Disponíveis
 
-   ```bash
-   EXPO_PUBLIC_API_URL=http://192.168.0.xxx:3333/api
-   ```
+### Scripts Globais (raiz)
+- `npm run dev` - Inicia backend e mobile em modo desenvolvimento
+- `npm run build` - Build de todos os workspaces
+- `npm run lint` - Executa lint em todos os workspaces
+- `npm run clean` - Limpa node_modules e cache
 
-   > **Importante:** use o IP da sua máquina se for testar no celular físico. Para rodar tudo no mesmo computador (Expo web ou emulador), `http://localhost:3333/api` funciona.
+### Scripts do Backend
+- `npm run backend:dev` - Inicia servidor em desenvolvimento
+- `npm run backend:check` - Verifica configuração do SQLite
 
-3. Inicie o app:
+### Scripts do Mobile
+- `npm run mobile:dev` - Inicia Expo em desenvolvimento
+- `npm run mobile:start` - Inicia Expo
 
-   ```bash
-   npm start
-   ```
+## 🛠️ Tecnologias
 
-   Escolha entre web, Android ou iOS (via Expo Go ou emuladores).
+### Backend
+- Node.js + Express
+- SQLite + Prisma ORM
+- TypeScript (opcional)
 
-### Principais telas/fluxos
+### Mobile
+- React Native (Expo)
+- React Navigation
+- Victory Native (gráficos)
+- React Native SVG
 
-- **Dashboard**: mostra resumo de dívidas, salário líquido e status da poupança.
-- **Dívidas**: lista todas as dívidas. Ao tocar em uma delas, abre o formulário preenchido para edição. Botão “Nova dívida” cria um novo registro.
-- **Salário**: formulário para salário mensal, descontos, 13º e férias.
-- **Poupança**: permite atualizar saldo guardado, meta e observações.
-- **Meses**: lista meses planejados e permite atualizar o total de cada um.
+## 📁 Estrutura de Workspaces
 
-As ações exibem mensagens rápidas de feedback e atualizam os dados automaticamente após cada operação.
+### Backend (`/backend`)
+- API REST com Express
+- Prisma para ORM
+- SQLite como banco de dados
+- Endpoints para gerenciar dívidas, salário, poupança e planejamento
 
-## Próximos passos sugeridos
+### Mobile (`/mobile`)
+- App React Native multiplataforma
+- Navegação com React Navigation
+- Dashboard com gráficos
+- Integração com API do backend
 
-- Validar campos obrigatórios com mensagens mais detalhadas no frontend.
-- Adicionar autenticação (ex: login simples) caso compartilhe o app.
-- Criar gráficos (gastos x meses, evolução da poupança) usando bibliotecas como Victory Native ou Recharts (na web).
-- Escrever testes automatizados para os cálculos do backend.
+## 🔧 Desenvolvimento
 
----
+### Adicionar nova dependência
 
-Qualquer dúvida ou nova funcionalidade que quiser adicionar, é só pedir! :)
+**No workspace específico:**
+```bash
+cd backend
+npm install nome-do-pacote
 
+# ou
+cd mobile
+npm install nome-do-pacote
+```
+
+**Na raiz (dependência compartilhada):**
+```bash
+npm install nome-do-pacote -w
+```
+
+### Executar comandos em workspace específico
+
+```bash
+# Backend
+npm run dev --filter=backend
+
+# Mobile
+npm run dev --filter=mobile
+```
+
+## 📝 Documentação Adicional
+
+- [Backend Setup](./backend/SETUP.md) - Guia detalhado de configuração do SQLite
+- [Backend README](./backend/README.md) - Documentação da API
+
+## 🤝 Contribuindo
+
+1. Faça fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+ISC
