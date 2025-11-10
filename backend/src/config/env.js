@@ -9,7 +9,7 @@ module.exports = {
   nodeEnv: process.env.NODE_ENV || 'development',
   port: Number(process.env.PORT) || 3333,
   dataFile: process.env.DATA_FILE || path.join(rootDir, 'data', 'store.json'),
-  databaseUrl: process.env.DATABASE_URL || 'file:./dev.db',
+  databaseUrl: process.env.DATABASE_URL || process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL_NON_POOLING || 'file:./dev.db',
   jwtSecret: process.env.JWT_SECRET || 'sua-chave-secreta-super-segura-mude-em-producao',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
 };

@@ -41,8 +41,15 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Erro interno do servidor' });
 });
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Servidor iniciado em http://localhost:${port}`);
-});
+// Para Vercel, exportar o app em vez de fazer listen
+// Em desenvolvimento local, ainda fazemos listen
+if (require.main === module) {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Servidor iniciado em http://localhost:${port}`);
+  });
+}
+
+// Exportar app para uso em serverless
+module.exports = app;
 

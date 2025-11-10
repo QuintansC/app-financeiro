@@ -86,14 +86,26 @@ npm run mobile:dev
 
 ### Backend
 - Node.js + Express
-- SQLite + Prisma ORM
-- TypeScript (opcional)
+- SQLite (desenvolvimento) / PostgreSQL (produção) + Prisma ORM
+- JWT para autenticação
+- bcrypt para hash de senhas
 
-### Mobile
-- React Native (Expo)
-- React Navigation
-- Victory Native (gráficos)
-- React Native SVG
+### Frontend
+- Next.js 15
+- React 19
+- Victory (gráficos)
+- XLSX (importação de planilhas)
+
+## 🚀 Deploy na Vercel
+
+Este projeto está configurado para deploy na Vercel. Veja [DEPLOY.md](./DEPLOY.md) para instruções detalhadas.
+
+### Deploy Rápido
+
+1. Conecte o repositório na Vercel
+2. Configure as variáveis de ambiente
+3. Configure o banco PostgreSQL
+4. Deploy automático via Git
 
 ## 📁 Estrutura de Workspaces
 

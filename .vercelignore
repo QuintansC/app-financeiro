@@ -1,0 +1,12 @@
+node_modules
+.next
+.turbo
+.env*.local
+*.log
+.DS_Store
+backend/data
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
+*.db
+*.db-journal
+.git

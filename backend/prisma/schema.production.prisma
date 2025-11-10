@@ -1,16 +1,13 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Schema para produção (PostgreSQL)
+// Este arquivo é usado quando DATABASE_URL aponta para PostgreSQL
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
-  // Para PostgreSQL em produção, use:
-  // provider = "postgresql"
-  // url      = env("DATABASE_URL")
 }
 
 model Debt {
@@ -92,9 +89,9 @@ model User {
   id        String   @id @default(cuid())
   name      String   @default("")
   email     String   @unique
-  password  String   // Hash da senha
-  phone     String?  @default("")
-  avatar    String?  @default("")
+  password  String
+  phone     String?
+  avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

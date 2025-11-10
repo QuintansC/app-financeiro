@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "build": "prisma generate",
+    "postinstall": "prisma generate",
     "lint": "echo \"Nenhum linter configurado\"",
     "check:sqlite": "node scripts/check-sqlite.js",
     "prisma:generate": "prisma generate",

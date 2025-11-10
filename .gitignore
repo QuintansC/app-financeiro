@@ -5,32 +5,29 @@ node_modules/
 
 # Testing
 coverage/
-*.lcov
 
-# Production
-dist/
-build/
+# Next.js
 .next/
 out/
+build/
+dist/
 
-# Misc
-.DS_Store
-*.pem
+# Production
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# Local env files
+# Environment variables
 .env
 .env*.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.production
+
+# Vercel
+.vercel
 
 # Turbo
-.turbo/
+.turbo
 
 # IDE
 .vscode/
@@ -40,18 +37,15 @@ yarn-error.log*
 *~
 
 # OS
+.DS_Store
 Thumbs.db
 
-# Backend specific
+# Database
+*.db
+*.db-journal
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
 backend/data/
-backend/prisma/migrations/
 
-# Mobile specific
-mobile/.expo/
-mobile/dist/
-mobile/web-build/
-mobile/.expo-shared/
-
-# Expo
-.expo/
-.expo-shared/
+# Prisma
+node_modules/.prisma/
