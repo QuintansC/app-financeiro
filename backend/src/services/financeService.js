@@ -6,6 +6,11 @@ const {
   updateSalary,
   updateSavings,
   updateMonth,
+  updateUserPreferences,
+  syncQuickActions,
+  updateQuickActionsOrder,
+  removeQuickAction,
+  updateUser,
 } = require('../database/dataStore');
 
 async function getAllDataService() {
@@ -33,6 +38,26 @@ async function updateMonthService(monthEntry) {
   return await updateMonth(monthEntry);
 }
 
+async function updateUserPreferencesService(preferences) {
+  return await updateUserPreferences(preferences);
+}
+
+async function syncQuickActionsService(actions) {
+  return await syncQuickActions(actions);
+}
+
+async function updateQuickActionsOrderService(routeOrder) {
+  return await updateQuickActionsOrder(routeOrder);
+}
+
+async function removeQuickActionService(route) {
+  return await removeQuickAction(route);
+}
+
+async function updateUserService(userData) {
+  return await updateUser(userData);
+}
+
 module.exports = {
   getAllData: getAllDataService,
   upsertDebt: upsertDebtService,
@@ -40,5 +65,10 @@ module.exports = {
   updateSalary: updateSalaryService,
   updateSavings: updateSavingsService,
   updateMonth: updateMonthService,
+  updateUserPreferences: updateUserPreferencesService,
+  syncQuickActions: syncQuickActionsService,
+  updateQuickActionsOrder: updateQuickActionsOrderService,
+  removeQuickAction: removeQuickActionService,
+  updateUser: updateUserService,
 };
 

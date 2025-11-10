@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import {
   fetchFinanceData,
@@ -6,6 +8,8 @@ import {
   updateSalary,
   updateSavings,
   updateMonth,
+  updateUserPreferences,
+  updateUser,
 } from '../services/api';
 import {
   getCachedData,
@@ -93,6 +97,23 @@ export function useFinanceData() {
     [loadData],
   );
 
+  const savePreferences = useCallback(
+    async (payload) => {
+      try {
+        await updateUserPreferences(payload);
+        // Atualiza apenas as preferências no estado, sem refresh completo
+        setData((prev) => ({
+          ...prev,
+          preferences: payload,
+        }));
+      } catch (err) {
+        setError(err.message || 'Erro ao salvar preferências');
+        throw err;
+      }
+    },
+    []
+  );
+
   return {
     data,
     loading,
@@ -104,6 +125,7 @@ export function useFinanceData() {
     saveSalary: (payload) => withRefresh(() => updateSalary(payload)),
     saveSavings: (payload) => withRefresh(() => updateSavings(payload)),
     saveMonth: (payload) => withRefresh(() => updateMonth(payload)),
+    savePreferences,
+    saveUser: (payload) => withRefresh(() => updateUser(payload)),
   };
 }
-

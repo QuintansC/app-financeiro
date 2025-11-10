@@ -1,19 +1,37 @@
-import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
-import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory-native';
-import { formatCurrency } from '../../utils/format';
+'use client';
 
-const screenWidth = Dimensions.get('window').width;
-const chartWidth = screenWidth - 80;
+import { useEffect, useState } from 'react';
+import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
+import { formatCurrency } from '../../utils/format';
+import { useTheme } from '@/contexts/ThemeContext';
+import styles from './MonthlyPlanningChart.module.css';
 
 export function MonthlyPlanningChart({ months }) {
+  const { theme } = useTheme();
+  const [axisColor, setAxisColor] = useState('#E5E7EB');
+  const [tickLabelColor, setTickLabelColor] = useState('#6B7280');
+  const [labelColor, setLabelColor] = useState('#1F2937');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      setAxisColor('#374151');
+      setTickLabelColor('#9CA3AF');
+      setLabelColor('#D1D5DB');
+    } else {
+      setAxisColor('#E5E7EB');
+      setTickLabelColor('#6B7280');
+      setLabelColor('#1F2937');
+    }
+  }, [theme]);
+
   if (!months || months.length === 0) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Planejamento Mensal</Text>
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>Nenhum mês planejado</Text>
-        </View>
-      </View>
+      <div className={styles.container}>
+        <h3 className={styles.title}>Planejamento Mensal</h3>
+        <div className={styles.emptyContainer}>
+          <p className={styles.emptyText}>Nenhum mês planejado</p>
+        </div>
+      </div>
     );
   }
 
@@ -25,30 +43,28 @@ export function MonthlyPlanningChart({ months }) {
     fullLabel: month.label,
   }));
 
-  const maxValue = Math.max(...data.map(d => d.y), 1000) * 1.2;
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Planejamento Mensal</Text>
-      <View style={styles.chartContainer}>
+    <div className={styles.container}>
+      <h3 className={styles.title}>Planejamento Mensal</h3>
+      <div className={styles.chartContainer}>
         <VictoryChart
           theme={VictoryTheme.material}
-          width={Math.min(chartWidth, 400)}
+          width={Math.min(400, 100 * data.length + 100)}
           height={250}
           domainPadding={{ x: 20 }}
         >
           <VictoryAxis
             style={{
-              axis: { stroke: '#E5E7EB' },
-              tickLabels: { fill: '#6B7280', fontSize: 10, fontWeight: '600' },
+              axis: { stroke: axisColor },
+              tickLabels: { fill: tickLabelColor, fontSize: 10, fontWeight: '600' },
             }}
           />
           <VictoryAxis
             dependentAxis
             tickFormat={(t) => `R$ ${(t / 1000).toFixed(0)}k`}
             style={{
-              axis: { stroke: '#E5E7EB' },
-              tickLabels: { fill: '#6B7280', fontSize: 9, fontWeight: '500' },
+              axis: { stroke: axisColor },
+              tickLabels: { fill: tickLabelColor, fontSize: 9, fontWeight: '500' },
             }}
           />
           <VictoryBar
@@ -64,75 +80,19 @@ export function MonthlyPlanningChart({ months }) {
             cornerRadius={{ top: 6 }}
             labels={({ datum }) => datum.y > 0 ? formatCurrency(datum.y) : ''}
             style={{
-              labels: { fontSize: 9, fill: '#1F2937', fontWeight: '600' },
+              labels: { fontSize: 9, fill: labelColor, fontWeight: '600' },
             }}
           />
         </VictoryChart>
-      </View>
-      <View style={styles.summary}>
-        <Text style={styles.summaryText}>
+      </div>
+      <div className={styles.summary}>
+        <p className={styles.summaryText}>
           Total planejado: {formatCurrency(data.reduce((sum, d) => sum + d.y, 0))}
-        </Text>
-        <Text style={styles.summarySubtext}>
+        </p>
+        <p className={styles.summarySubtext}>
           {data.length} {data.length === 1 ? 'mês' : 'meses'} exibidos
-        </Text>
-      </View>
-    </View>
+        </p>
+      </div>
+    </div>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginBottom: 16,
-  },
-  chartContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  summary: {
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
-    alignItems: 'center',
-  },
-  summaryText: {
-    fontSize: 14,
-    color: '#1F2937',
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  summarySubtext: {
-    fontSize: 12,
-    color: '#6B7280',
-    fontWeight: '500',
-  },
-  emptyContainer: {
-    padding: 40,
-    alignItems: 'center',
-  },
-  emptyText: {
-    color: '#9CA3AF',
-    fontSize: 14,
-    fontStyle: 'italic',
-  },
-});
-

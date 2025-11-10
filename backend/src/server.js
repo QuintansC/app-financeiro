@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const financeRoutes = require('./routes/financeRoutes');
+const authRoutes = require('./routes/authRoutes');
 const { port } = require('./config/env');
 
 const app = express();
@@ -28,6 +29,10 @@ app.get('/health', (_, res) => {
   res.json({ status: 'ok' });
 });
 
+// Rotas de autenticação (públicas)
+app.use('/api/auth', authRoutes);
+
+// Rotas financeiras (protegidas)
 app.use('/api', financeRoutes);
 
 app.use((err, req, res, next) => {

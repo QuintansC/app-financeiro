@@ -24,23 +24,43 @@ function isCacheValid(cache) {
 
 /**
  * Obtém dados do cache (retorna null se inválido ou não existir)
+ * Retorna uma cópia dos dados para evitar mutações
  */
 export function getCachedData() {
-  if (isCacheValid(memoryCache)) {
-    return memoryCache.data;
+  if (isCacheValid(memoryCache) && memoryCache.data !== null) {
+    try {
+      // Retorna uma cópia profunda para evitar mutações acidentais
+      return JSON.parse(JSON.stringify(memoryCache.data));
+    } catch (error) {
+      console.warn('Erro ao deserializar cache:', error);
+      // Se houver erro na serialização, invalida o cache
+      invalidateCache();
+      return null;
+    }
   }
   return null;
 }
 
 /**
  * Armazena dados no cache
+ * Garante que apenas dados serializáveis sejam armazenados
  */
 export function setCachedData(data) {
-  memoryCache = {
-    data,
-    timestamp: Date.now(),
-    version: memoryCache.version + 1,
-  };
+  try {
+    // Cria uma cópia profunda e serializável dos dados
+    // Isso garante que não há referências circulares ou objetos não serializáveis
+    const serializableData = JSON.parse(JSON.stringify(data));
+    
+    memoryCache = {
+      data: serializableData,
+      timestamp: Date.now(),
+      version: memoryCache.version + 1,
+    };
+  } catch (error) {
+    console.warn('Erro ao serializar dados para cache:', error);
+    // Se não conseguir serializar, não armazena no cache
+    // Mas não quebra a aplicação
+  }
 }
 
 /**
@@ -86,4 +106,3 @@ export function getCacheInfo() {
     version: memoryCache.version,
   };
 }
-

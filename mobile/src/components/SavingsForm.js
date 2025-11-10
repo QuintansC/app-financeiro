@@ -1,7 +1,9 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { formatDate } from '../utils/format';
 import { Button } from './Button';
+import styles from './SavingsForm.module.css';
 
 const emptyForm = {
   savedBalance: '',
@@ -35,78 +37,49 @@ export function SavingsForm({ savings, onSubmit }) {
   }
 
   return (
-    <View>
-      <Text style={styles.label}>Saldo guardado</Text>
-      <TextInput
-        style={styles.input}
+    <div>
+      <label className={styles.label}>Saldo guardado</label>
+      <input
+        className={styles.input}
+        type="text"
         value={form.savedBalance}
-        onChangeText={(text) => updateField('savedBalance', text)}
+        onChange={(e) => updateField('savedBalance', e.target.value)}
         placeholder="Ex: 10000,00"
-        keyboardType="numeric"
-        placeholderTextColor="#9CA3AF"
+        inputMode="numeric"
       />
 
-      <Text style={styles.label}>Meta atual</Text>
-      <TextInput
-        style={styles.input}
+      <label className={styles.label}>Meta atual</label>
+      <input
+        className={styles.input}
+        type="text"
         value={form.currentGoal}
-        onChangeText={(text) => updateField('currentGoal', text)}
+        onChange={(e) => updateField('currentGoal', e.target.value)}
         placeholder="Ex: 50000,00"
-        keyboardType="numeric"
-        placeholderTextColor="#9CA3AF"
+        inputMode="numeric"
       />
 
-      <Text style={styles.label}>Observações</Text>
-      <TextInput
-        style={[styles.input, styles.textarea]}
+      <label className={styles.label}>Observações</label>
+      <textarea
+        className={`${styles.input} ${styles.textarea}`}
         value={form.notes}
-        onChangeText={(text) => updateField('notes', text)}
+        onChange={(e) => updateField('notes', e.target.value)}
         placeholder="Adicione observações sobre sua poupança..."
-        multiline
-        placeholderTextColor="#9CA3AF"
+        rows={4}
       />
 
       {savings?.lastSavedAt && (
-        <Text style={styles.lastSaved}>
+        <p className={styles.lastSaved}>
           Último registro: {formatDate(savings.lastSavedAt)}
-        </Text>
+        </p>
       )}
 
-      <Button title="Salvar poupança" variant="primary" onPress={handleSubmit} fullWidth style={styles.submitButton} />
-    </View>
+      <Button
+        title="Salvar poupança"
+        variant="primary"
+        onClick={handleSubmit}
+        fullWidth
+        className={styles.submitButton}
+      />
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  label: {
-    fontWeight: '600',
-    marginBottom: 8,
-    marginTop: 16,
-    color: '#374151',
-    fontSize: 14,
-  },
-  input: {
-    borderWidth: 1.5,
-    borderColor: '#D1D5DB',
-    borderRadius: 10,
-    padding: 12,
-    fontSize: 15,
-    backgroundColor: '#FFFFFF',
-    color: '#1F2937',
-  },
-  textarea: {
-    minHeight: 90,
-    textAlignVertical: 'top',
-  },
-  lastSaved: {
-    marginTop: 12,
-    marginBottom: 16,
-    color: '#6B7280',
-    fontSize: 13,
-    fontStyle: 'italic',
-  },
-  submitButton: {
-    marginTop: 8,
-  },
-});
-

@@ -1,0 +1,286 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+}
+
+.header {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: #1F2937;
+  letter-spacing: -0.5px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .container {
+    padding: 16px 12px;
+  }
+
+  .header {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.error {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 4px solid #EF4444;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 20px;
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .sectionTitle {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .quickActionsTitle {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}
+
+.chartsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+  align-items: flex-start;
+}
+
+.chartColumn {
+  padding: 0 10px;
+  margin-bottom: 20px;
+  flex: 1;
+  min-width: 350px;
+  max-width: 33.333%;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .chartsGrid {
+    margin: 0;
+    flex-direction: column;
+  }
+
+  .chartColumn {
+    padding: 0;
+    margin-bottom: 16px;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+.quickActions {
+  margin-top: 0;
+  margin-bottom: 32px;
+}
+
+.quickActionsTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 16px;
+}
+
+.quickActionsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -6px;
+}
+
+.quickActionCard {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  margin: 6px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #F3F4F6;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.quickActionCard:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.quickActionCard:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .quickActionsGrid {
+    margin: 0;
+    gap: 8px;
+  }
+
+  .quickActionCard {
+    flex: 1;
+    min-width: calc(50% - 4px);
+    max-width: calc(50% - 4px);
+    margin: 0;
+    padding: 16px;
+  }
+
+  .quickActionIcon {
+    font-size: 28px;
+  }
+
+  .quickActionText {
+    font-size: 12px;
+  }
+}
+
+.quickActionIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.quickActionText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.success {
+  background-color: #D1FAE5;
+  color: #065F46;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 4px solid #10B981;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.addButton {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px 24px;
+  background-color: #6366F1;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addButton:hover {
+  background-color: #4F46E5;
+}
+
+.uploadButton {
+  background-color: #10B981;
+}
+
+.uploadButton:hover {
+  background-color: #059669;
+}
+
+.addActionCard {
+  border: 2px dashed #D1D5DB;
+  background-color: #FAFBFC;
+}
+
+.addActionCard:hover {
+  border-color: #6366F1;
+  background-color: #F0F0FF;
+}
+
+.addActionCard .quickActionIcon {
+  color: #6366F1;
+}
+
+/* Dark Mode */
+:global(.dark) .header {
+  color: #F9FAFB;
+}
+
+:global(.dark) .sectionTitle {
+  color: #F9FAFB;
+}
+
+:global(.dark) .quickActionsTitle {
+  color: #F9FAFB;
+}
+
+:global(.dark) .quickActionCard {
+  background-color: #1F2937;
+  border-color: #374151;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .quickActionCard:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+:global(.dark) .quickActionText {
+  color: #F9FAFB;
+}
+
+:global(.dark) .addActionCard {
+  border-color: #4B5563;
+  background-color: #111827;
+}
+
+:global(.dark) .addActionCard:hover {
+  border-color: #6366F1;
+  background-color: #1F2937;
+}
+
+:global(.dark) .error {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #FCA5A5;
+  border-left-color: #EF4444;
+}
+
+:global(.dark) .success {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #6EE7B7;
+  border-left-color: #10B981;
+}
+
+:global(.dark) .uploadButton {
+  background-color: #10B981;
+}
+
+:global(.dark) .uploadButton:hover {
+  background-color: #059669;
+}
+

@@ -2,7 +2,7 @@ const prisma = require('./prisma');
 const { calculateSummary } = require('../utils/calculations');
 
 async function getAllData() {
-  const [debts, salary, savings, months] = await Promise.all([
+  const [debts, salary, savings, months, preferences, quickActions, user] = await Promise.all([
     prisma.debt.findMany({
       orderBy: { createdAt: 'asc' },
     }),
@@ -14,6 +14,15 @@ async function getAllData() {
     }),
     prisma.month.findMany({
       orderBy: { id: 'asc' },
+    }),
+    prisma.userPreferences.findUnique({
+      where: { id: 'single' },
+    }),
+    prisma.quickAction.findMany({
+      orderBy: { order: 'asc' },
+    }),
+    prisma.user.findUnique({
+      where: { id: 'single' },
     }),
   ]);
 
@@ -57,6 +66,36 @@ async function getAllData() {
       label: month.label,
       total: month.total,
     })),
+    preferences: preferences ? {
+      debtsStatusFilter: preferences.debtsStatusFilter,
+      debtsSortBy: preferences.debtsSortBy,
+      debtsViewMode: preferences.debtsViewMode,
+    } : {
+      debtsStatusFilter: 'all',
+      debtsSortBy: 'status',
+      debtsViewMode: 'list',
+    },
+    quickActions: quickActions.map(action => ({
+      id: action.id,
+      label: action.label,
+      icon: action.icon,
+      route: action.route,
+      order: action.order,
+      isDefault: action.isDefault,
+    })),
+    user: user ? {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      avatar: user.avatar,
+    } : {
+      id: 'single',
+      name: '',
+      email: '',
+      phone: '',
+      avatar: '',
+    },
   };
 
   return {
@@ -182,6 +221,164 @@ async function updateMonth(monthEntry) {
   return month;
 }
 
+async function updateUserPreferences(preferencesData) {
+  const preferences = await prisma.userPreferences.upsert({
+    where: { id: 'single' },
+    update: {
+      debtsStatusFilter: preferencesData.debtsStatusFilter || 'all',
+      debtsSortBy: preferencesData.debtsSortBy || 'status',
+      debtsViewMode: preferencesData.debtsViewMode || 'list',
+    },
+    create: {
+      id: 'single',
+      debtsStatusFilter: preferencesData.debtsStatusFilter || 'all',
+      debtsSortBy: preferencesData.debtsSortBy || 'status',
+      debtsViewMode: preferencesData.debtsViewMode || 'list',
+    },
+  });
+  return preferences;
+}
+
+async function syncQuickActions(actionsData) {
+  // Verificar e criar ações padrão se não existirem
+  const defaultActionsData = [
+    { label: 'Dívidas', icon: '💳', route: '/dividas' },
+    { label: 'Salário', icon: '💰', route: '/salario' },
+    { label: 'Poupança', icon: '🏦', route: '/poupanca' },
+    { label: 'Planejamento', icon: '📅', route: '/planejamento' },
+  ];
+
+  for (const defaultAction of defaultActionsData) {
+    const exists = await prisma.quickAction.findFirst({
+      where: {
+        route: defaultAction.route,
+        isDefault: true,
+      },
+    });
+
+    if (!exists) {
+      await prisma.quickAction.create({
+        data: {
+          label: defaultAction.label,
+          icon: defaultAction.icon,
+          route: defaultAction.route,
+          order: defaultActionsData.indexOf(defaultAction),
+          isDefault: true,
+        },
+      });
+    }
+  }
+
+  // Deletar todas as ações customizadas existentes
+  await prisma.quickAction.deleteMany({
+    where: {
+      isDefault: false,
+    },
+  });
+
+  // Criar/atualizar ações baseado nos dados recebidos
+  const result = [];
+  for (let i = 0; i < actionsData.length; i++) {
+    const action = actionsData[i];
+    
+    if (action.isDefault) {
+      // Atualizar ação padrão existente (ordem)
+      const existing = await prisma.quickAction.findFirst({
+        where: {
+          route: action.route,
+          isDefault: true,
+        },
+      });
+      
+      if (existing) {
+        const updated = await prisma.quickAction.update({
+          where: { id: existing.id },
+          data: {
+            order: action.order !== undefined ? action.order : i,
+          },
+        });
+        result.push(updated);
+      }
+    } else {
+      // Criar ação customizada
+      const newAction = await prisma.quickAction.create({
+        data: {
+          label: action.label,
+          icon: action.icon,
+          route: action.route,
+          order: action.order !== undefined ? action.order : i,
+          isDefault: false,
+        },
+      });
+      result.push(newAction);
+    }
+  }
+
+  return result;
+}
+
+async function updateQuickActionsOrder(routeOrder) {
+  // Atualizar a ordem das ações baseado na lista de rotas
+  const actions = await prisma.quickAction.findMany();
+  
+  for (let i = 0; i < routeOrder.length; i++) {
+    const route = routeOrder[i];
+    const action = actions.find(a => a.route === route);
+    if (action) {
+      await prisma.quickAction.update({
+        where: { id: action.id },
+        data: { order: i },
+      });
+    }
+  }
+
+  return await prisma.quickAction.findMany({
+    orderBy: { order: 'asc' },
+  });
+}
+
+async function removeQuickAction(route) {
+  // Verificar se é ação padrão ou customizada
+  const action = await prisma.quickAction.findFirst({
+    where: { route: route },
+  });
+  
+  if (action) {
+    if (action.isDefault) {
+      // Para ações padrão, apenas atualizamos a ordem para -1 (ocultar)
+      await prisma.quickAction.update({
+        where: { id: action.id },
+        data: { order: -1 },
+      });
+    } else {
+      // Para ações customizadas, deletar completamente
+      await prisma.quickAction.delete({
+        where: { id: action.id },
+      });
+    }
+  }
+}
+
+async function updateUser(userData) {
+  const user = await prisma.user.upsert({
+    where: { id: 'single' },
+    update: {
+      name: userData.name || '',
+      email: userData.email || null,
+      phone: userData.phone || null,
+      avatar: userData.avatar || null,
+    },
+    create: {
+      id: 'single',
+      name: userData.name || '',
+      email: userData.email || null,
+      phone: userData.phone || null,
+      avatar: userData.avatar || null,
+    },
+  });
+  return user;
+}
+
 module.exports = {
   getAllData,
   upsertDebt,
@@ -189,4 +386,9 @@ module.exports = {
   updateSalary,
   updateSavings,
   updateMonth,
+  updateUserPreferences,
+  syncQuickActions,
+  updateQuickActionsOrder,
+  removeQuickAction,
+  updateUser,
 };

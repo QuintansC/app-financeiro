@@ -1,0 +1,106 @@
+.container {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #F3F4F6;
+  min-height: 400px;
+  width: 100%;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.chartContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.progressContainer {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.progressBar {
+  height: 12px;
+  background-color: #E5E7EB;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: #6366F1;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .container {
+    padding: 16px;
+    margin-bottom: 16px;
+    min-height: 350px;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .chartContainer {
+    margin: 8px 0;
+    overflow-x: auto;
+  }
+
+  .progressContainer {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .progressText {
+    font-size: 12px;
+  }
+}
+
+/* Dark Mode */
+:global(.dark) .container {
+  background-color: #1F2937;
+  border-color: #374151;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .title {
+  color: #F9FAFB;
+}
+
+:global(.dark) .progressContainer {
+  border-top-color: #374151;
+}
+
+:global(.dark) .progressBar {
+  background-color: #374151;
+}
+
+:global(.dark) .progressText {
+  color: #9CA3AF;
+}
+

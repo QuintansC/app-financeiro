@@ -1,11 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
 import { Button } from './Button';
+import styles from './DebtForm.module.css';
 
 const emptyForm = {
   id: undefined,
@@ -53,12 +50,8 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
       return;
     }
 
-    // Função auxiliar para converter string para número
-    // Suporta tanto ponto quanto vírgula como separador decimal (formato brasileiro)
     const toNumber = (value) => {
       if (value === '' || value === null || value === undefined) return 0;
-      
-      // Substituir vírgula por ponto para conversão correta
       const normalizedValue = String(value).replace(',', '.');
       const num = Number(normalizedValue);
       return isNaN(num) ? 0 : num;
@@ -79,164 +72,120 @@ export function DebtForm({ selectedDebt, onSubmit, onCancel }) {
   }
 
   return (
-    <View>
-      <Text style={styles.label}>Credor</Text>
-      <TextInput
-        style={styles.input}
+    <div>
+      <label className={styles.label}>Credor</label>
+      <input
+        className={styles.input}
+        type="text"
         value={form.creditor}
-        onChangeText={(text) => updateField('creditor', text)}
+        onChange={(e) => updateField('creditor', e.target.value)}
         placeholder="Ex: Itaú"
-        placeholderTextColor="#9CA3AF"
       />
 
-      <Text style={styles.label}>Valor total</Text>
-      <TextInput
-        style={styles.input}
+      <label className={styles.label}>Valor total</label>
+      <input
+        className={styles.input}
+        type="text"
         value={form.totalValue}
-        onChangeText={(text) => updateField('totalValue', text)}
+        onChange={(e) => updateField('totalValue', e.target.value)}
         placeholder="0,00"
-        placeholderTextColor="#9CA3AF"
-        keyboardType="numeric"
+        inputMode="numeric"
       />
 
-      <Text style={styles.label}>Valor pago</Text>
-      <TextInput
-        style={styles.input}
+      <label className={styles.label}>Valor pago</label>
+      <input
+        className={styles.input}
+        type="text"
         value={form.paidValue}
-        onChangeText={(text) => updateField('paidValue', text)}
+        onChange={(e) => updateField('paidValue', e.target.value)}
         placeholder="0,00"
-        placeholderTextColor="#9CA3AF"
-        keyboardType="numeric"
+        inputMode="numeric"
       />
 
-      <View style={styles.row}>
-        <View style={styles.half}>
-          <Text style={styles.label}>Parcelas</Text>
-          <TextInput
-            style={[styles.input, styles.rowInput]}
+      <div className={styles.row}>
+        <div className={styles.half}>
+          <label className={styles.label}>Parcelas</label>
+          <input
+            className={styles.input}
+            type="text"
             value={form.installments}
-            onChangeText={(text) => updateField('installments', text)}
+            onChange={(e) => updateField('installments', e.target.value)}
             placeholder="0"
-        placeholderTextColor="#9CA3AF"
-            keyboardType="numeric"
+            inputMode="numeric"
           />
-        </View>
-        <View style={styles.half}>
-          <Text style={styles.label}>Parcelas pagas</Text>
-          <TextInput
-            style={styles.input}
+        </div>
+        <div className={styles.half}>
+          <label className={styles.label}>Parcelas pagas</label>
+          <input
+            className={styles.input}
+            type="text"
             value={form.paidInstallments}
-            onChangeText={(text) => updateField('paidInstallments', text)}
+            onChange={(e) => updateField('paidInstallments', e.target.value)}
             placeholder="0"
-        placeholderTextColor="#9CA3AF"
-            keyboardType="numeric"
+            inputMode="numeric"
           />
-        </View>
-      </View>
+        </div>
+      </div>
 
-      <Text style={styles.label}>Valor da parcela</Text>
-      <TextInput
-        style={styles.input}
+      <label className={styles.label}>Valor da parcela</label>
+      <input
+        className={styles.input}
+        type="text"
         value={form.installmentValue}
-        onChangeText={(text) => updateField('installmentValue', text)}
+        onChange={(e) => updateField('installmentValue', e.target.value)}
         placeholder="0,00"
-        placeholderTextColor="#9CA3AF"
-        keyboardType="numeric"
+        inputMode="numeric"
       />
 
-      <View style={styles.row}>
-        <View style={styles.half}>
-          <Text style={styles.label}>Dia vencimento</Text>
-          <TextInput
-            style={[styles.input, styles.rowInput]}
+      <div className={styles.row}>
+        <div className={styles.half}>
+          <label className={styles.label}>Dia vencimento</label>
+          <input
+            className={styles.input}
+            type="text"
             value={form.dueDay}
-            onChangeText={(text) => updateField('dueDay', text)}
+            onChange={(e) => updateField('dueDay', e.target.value)}
             placeholder="0"
-        placeholderTextColor="#9CA3AF"
-            keyboardType="numeric"
+            inputMode="numeric"
           />
-        </View>
-        <View style={styles.half}>
-          <Text style={styles.label}>1ª parcela</Text>
-          <TextInput
-            style={styles.input}
+        </div>
+        <div className={styles.half}>
+          <label className={styles.label}>1ª parcela</label>
+          <input
+            className={styles.input}
+            type="text"
             value={form.firstInstallmentValue}
-            onChangeText={(text) => updateField('firstInstallmentValue', text)}
+            onChange={(e) => updateField('firstInstallmentValue', e.target.value)}
             placeholder="0,00"
-        placeholderTextColor="#9CA3AF"
-            keyboardType="numeric"
+            inputMode="numeric"
           />
-        </View>
-      </View>
+        </div>
+      </div>
 
-      <Text style={styles.label}>Observações</Text>
-      <TextInput
-        style={[styles.input, styles.textarea]}
+      <label className={styles.label}>Observações</label>
+      <textarea
+        className={`${styles.input} ${styles.textarea}`}
         value={form.notes}
-        onChangeText={(text) => updateField('notes', text)}
+        onChange={(e) => updateField('notes', e.target.value)}
         placeholder="Adicione detalhes sobre esta dívida..."
-        placeholderTextColor="#9CA3AF"
-        multiline
-        numberOfLines={3}
+        rows={3}
       />
 
-      <View style={styles.actions}>
+      <div className={styles.actions}>
         {onCancel && (
           <Button
             title="Cancelar"
             variant="outline"
-            onPress={onCancel}
-            style={styles.cancelButton}
+            onClick={onCancel}
+            className={styles.cancelButton}
           />
         )}
         <Button
           title="Salvar"
           variant="primary"
-          onPress={handleSubmit}
+          onClick={handleSubmit}
         />
-      </View>
-    </View>
+      </div>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  label: {
-    fontWeight: '600',
-    marginBottom: 8,
-    marginTop: 16,
-    color: '#374151',
-    fontSize: 14,
-  },
-  input: {
-    borderWidth: 1.5,
-    borderColor: '#D1D5DB',
-    borderRadius: 10,
-    padding: 12,
-    fontSize: 15,
-    backgroundColor: '#FFFFFF',
-    color: '#1F2937',
-  },
-  textarea: {
-    minHeight: 90,
-    textAlignVertical: 'top',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  half: {
-    flex: 1,
-  },
-  rowInput: {
-    marginRight: 12,
-  },
-  actions: {
-    marginTop: 24,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  cancelButton: {
-    marginRight: 12,
-  },
-});
-
