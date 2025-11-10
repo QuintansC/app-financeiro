@@ -99,7 +99,7 @@ export function DebtFormModal({ isOpen, onClose, selectedDebt, onSubmit }) {
         }
       }
     }
-  }, [form.totalValue, form.installments, form.firstInstallmentValue, isManualEdit]);
+  }, [form.totalValue, form.installments, form.firstInstallmentValue, form.installmentValue, isManualEdit]);
 
   // Calcular automaticamente o valor pago quando paidInstallments ou installmentValue mudarem
   useEffect(() => {
@@ -137,7 +137,7 @@ export function DebtFormModal({ isOpen, onClose, selectedDebt, onSubmit }) {
         }
       }
     }
-  }, [form.paidInstallments, form.installmentValue, isManualEditPaidValue]);
+  }, [form.paidInstallments, form.installmentValue, form.paidValue, isManualEditPaidValue]);
 
   if (!isOpen) return null;
 

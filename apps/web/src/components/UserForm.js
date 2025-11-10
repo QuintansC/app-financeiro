@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import styles from './UserForm.module.css';
 
 export function UserForm({ user, onSave, isLoading = false }) {
@@ -10,6 +11,7 @@ export function UserForm({ user, onSave, isLoading = false }) {
     phone: '',
     avatar: '',
   });
+  const [avatarPreviewError, setAvatarPreviewError] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -19,8 +21,13 @@ export function UserForm({ user, onSave, isLoading = false }) {
         phone: user.phone || '',
         avatar: user.avatar || '',
       });
+      setAvatarPreviewError(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    setAvatarPreviewError(false);
+  }, [form.avatar]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -98,11 +105,17 @@ export function UserForm({ user, onSave, isLoading = false }) {
           className={styles.input}
           placeholder="https://exemplo.com/avatar.jpg"
         />
-        {form.avatar && (
+        {form.avatar && !avatarPreviewError && (
           <div className={styles.avatarPreview}>
-            <img src={form.avatar} alt="Preview do avatar" onError={(e) => {
-              e.target.style.display = 'none';
-            }} />
+            <Image
+              src={form.avatar}
+              alt="Preview do avatar"
+              width={72}
+              height={72}
+              className={styles.avatarImage}
+              unoptimized
+              onError={() => setAvatarPreviewError(true)}
+            />
           </div>
         )}
       </div>

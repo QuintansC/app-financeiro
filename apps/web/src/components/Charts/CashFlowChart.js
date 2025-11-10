@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
-import { formatCurrency, formatPercent } from '../../utils/format';
+import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
+import { formatCurrency } from '../../utils/format';
 import { useTheme } from '@/contexts/ThemeContext';
-import styles from './SavingsProgressChart.module.css';
+import styles from './CashFlowChart.module.css';
 
-export function SavingsProgressChart({ summary }) {
+export function CashFlowChart({ summary }) {
   const { theme } = useTheme();
   const [axisColor, setAxisColor] = useState('#E5E7EB');
   const [tickLabelColor, setTickLabelColor] = useState('#6B7280');
@@ -24,19 +24,20 @@ export function SavingsProgressChart({ summary }) {
     }
   }, [theme]);
 
-  if (!summary || !summary.savings) return null;
+  if (!summary || !summary.salary || !summary.cashFlow) return null;
 
-  const { savedBalance, currentGoal } = summary.savings;
-  const progress = currentGoal > 0 ? (savedBalance / currentGoal) * 100 : 0;
+  const { netIncome } = summary.salary;
+  const { availableAfterDebts } = summary.cashFlow;
+  const monthlyDebts = summary.debtsTotals?.averageInstallment || 0;
 
   const data = [
-    { x: 'Saldo\nAtual', y: savedBalance },
-    { x: 'Meta', y: currentGoal },
+    { x: 'Salário\nLíquido', y: netIncome },
+    { x: 'Após\nDívidas', y: availableAfterDebts },
   ];
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Progresso da Poupança</h3>
+      <h3 className={styles.title}>Fluxo de Caixa Mensal</h3>
       <div className={styles.chartContainer}>
         <VictoryChart
           theme={VictoryTheme.material}
@@ -65,24 +66,20 @@ export function SavingsProgressChart({ summary }) {
             barWidth={60}
             style={{
               data: {
-                fill: ({ datum }) => datum.x === 'Saldo\nAtual' ? '#6366F1' : '#10B981',
+                fill: ({ datum }) => datum.y === netIncome ? '#6366F1' : (datum.y < 0 ? '#EF4444' : '#10B981'),
               },
+              labels: { fontSize: 10, fill: labelColor, fontWeight: '600' },
             }}
             cornerRadius={{ top: 8 }}
             labels={({ datum }) => formatCurrency(datum.y)}
-            style={{
-              labels: { fontSize: 10, fill: labelColor, fontWeight: '600' },
-            }}
           />
         </VictoryChart>
       </div>
-      <div className={styles.progressContainer}>
-        <div className={styles.progressBar}>
-          <div className={styles.progressFill} style={{ width: `${Math.min(progress, 100)}%` }} />
+      <div className={styles.info}>
+        <div className={styles.infoItem}>
+          <span className={styles.infoLabel}>Gasto com dívidas:</span>
+          <span className={styles.infoValue}>{formatCurrency(monthlyDebts)}/mês</span>
         </div>
-        <p className={styles.progressText}>
-          {formatPercent(progress)} da meta alcançada
-        </p>
       </div>
     </div>
   );

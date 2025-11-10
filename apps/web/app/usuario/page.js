@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useFinanceData } from '@/hooks/useFinanceData';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,6 +21,13 @@ export default function Usuario() {
   const { user: authUser } = useAuth();
 
   const [feedback, setFeedback] = useState('');
+  const displayUser = data?.user || authUser;
+  const computedAvatar = displayUser?.avatar || (displayUser?.name ? `https://ui-avatars.com/api/?name=${encodeURIComponent(displayUser.name)}&background=6366F1&color=fff&size=200` : null);
+  const [avatarSrc, setAvatarSrc] = useState(computedAvatar || '');
+
+  useEffect(() => {
+    setAvatarSrc(computedAvatar || '');
+  }, [computedAvatar]);
 
   const showFullScreenLoading = (loading && !data) || operationLoading;
 
@@ -43,21 +51,25 @@ export default function Usuario() {
     }
   }
 
-  const displayUser = data?.user || authUser;
-  const userAvatar = displayUser?.avatar || (displayUser?.name ? `https://ui-avatars.com/api/?name=${encodeURIComponent(displayUser.name)}&background=6366F1&color=fff&size=200` : null);
-
   return (
     <ProtectedRoute>
       <div className={styles.container}>
         <div className={styles.profileHeader}>
           <div className={styles.avatarContainer}>
-            {userAvatar ? (
-              <img 
-                src={userAvatar} 
-                alt={displayUser?.name || 'Usuário'} 
+            {avatarSrc ? (
+              <Image
+                src={avatarSrc}
+                alt={displayUser?.name || 'Usuário'}
+                width={120}
+                height={120}
                 className={styles.avatar}
-                onError={(e) => {
-                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayUser?.name || 'U')}&background=6366F1&color=fff&size=200`;
+                unoptimized
+                onError={() => {
+                  if (displayUser?.name) {
+                    setAvatarSrc(`https://ui-avatars.com/api/?name=${encodeURIComponent(displayUser.name)}&background=6366F1&color=fff&size=200`);
+                  } else {
+                    setAvatarSrc('');
+                  }
                 }}
               />
             ) : (

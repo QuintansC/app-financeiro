@@ -140,7 +140,7 @@ export default function Dashboard() {
     }
     
     return combined;
-  }, [data?.quickActions, defaultActions, customActions, removedDefaultActions, actionsOrder]);
+  }, [data?.quickActions, customActions, removedDefaultActions, actionsOrder]);
 
   const showFullScreenLoading = (loading && !data) || operationLoading;
 

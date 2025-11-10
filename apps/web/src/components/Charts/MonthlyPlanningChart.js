@@ -76,12 +76,10 @@ export function MonthlyPlanningChart({ months }) {
               data: {
                 fill: '#6366F1',
               },
+              labels: { fontSize: 9, fill: labelColor, fontWeight: '600' },
             }}
             cornerRadius={{ top: 6 }}
             labels={({ datum }) => datum.y > 0 ? formatCurrency(datum.y) : ''}
-            style={{
-              labels: { fontSize: 9, fill: labelColor, fontWeight: '600' },
-            }}
           />
         </VictoryChart>
       </div>

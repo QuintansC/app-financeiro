@@ -4,8 +4,8 @@
   "private": true,
   "packageManager": "npm@9.0.0",
   "workspaces": [
-    "backend",
-    "mobile"
+    "apps/backend",
+    "apps/web"
   ],
   "scripts": {
     "dev": "turbo run dev",
@@ -13,10 +13,12 @@
     "start": "turbo run start",
     "lint": "turbo run lint",
     "clean": "turbo run clean && rm -rf node_modules",
-    "backend:dev": "turbo run dev --filter=backend",
-    "backend:check": "turbo run check:sqlite --filter=backend",
-    "mobile:dev": "turbo run dev --filter=mobile",
-    "mobile:start": "turbo run start --filter=mobile"
+    "backend:dev": "npm run dev --workspace backend",
+    "backend:start": "npm run start --workspace backend",
+    "backend:build": "npm run build --workspace backend",
+    "web:dev": "npm run dev --workspace mobile",
+    "web:start": "npm run start --workspace mobile",
+    "web:build": "npm run build --workspace mobile"
   },
   "devDependencies": {
     "turbo": "^2.6.0"
