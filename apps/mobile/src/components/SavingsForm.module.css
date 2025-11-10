@@ -1,0 +1,93 @@
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 16px;
+  color: #374151;
+  font-size: 14px;
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 15px;
+  background-color: #FFFFFF;
+  color: #1F2937;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #6366F1;
+}
+
+.textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.lastSaved {
+  margin-top: 12px;
+  margin-bottom: 16px;
+  color: #6B7280;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.submitButton {
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .label {
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  .input {
+    padding: 10px;
+    font-size: 16px; /* Previne zoom no iOS */
+    border-radius: 8px;
+  }
+
+  .textarea {
+    min-height: 80px;
+  }
+
+  .lastSaved {
+    font-size: 12px;
+  }
+}
+
+/* Dark Mode */
+:global(.dark) .label {
+  color: #D1D5DB;
+}
+
+:global(.dark) .input {
+  background-color: #111827;
+  border-color: #374151;
+  color: #F9FAFB;
+}
+
+:global(.dark) .input:focus {
+  border-color: #6366F1;
+}
+
+:global(.dark) .lastSaved {
+  color: #9CA3AF;
+}
+
+:global(.dark) .textarea {
+  background-color: #111827;
+  border-color: #374151;
+  color: #F9FAFB;
+}
+
+:global(.dark) .textarea:focus {
+  border-color: #6366F1;
+}
+

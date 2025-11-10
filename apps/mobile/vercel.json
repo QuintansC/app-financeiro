@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && npm install && cd mobile && npm run build",
+  "installCommand": "cd ../.. && npm install"
+}
+

@@ -1,0 +1,268 @@
+.calendar {
+  width: 100%;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 0 4px;
+}
+
+.yearTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6366F1;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: #F3F4F6;
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.monthsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.monthCell {
+  background-color: #FFFFFF;
+  border: 2px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.monthCell:hover {
+  border-color: #6366F1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+.monthCell.hasValue {
+  border-color: #10B981;
+  background-color: #F0FDF4;
+}
+
+.monthCell.empty {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.monthCell.empty:hover {
+  border-color: #E5E7EB;
+  box-shadow: none;
+  transform: none;
+}
+
+.monthHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.monthName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.monthIndicator {
+  font-size: 8px;
+  color: #10B981;
+  margin-left: 4px;
+}
+
+.monthContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.monthValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1F2937;
+  text-align: center;
+}
+
+.monthEmpty {
+  font-size: 14px;
+  color: #9CA3AF;
+  font-style: italic;
+}
+
+.yearSelector {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.yearButton {
+  background: none;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.yearButton:hover {
+  border-color: #6366F1;
+  color: #6366F1;
+}
+
+.yearButton.active {
+  background-color: #6366F1;
+  border-color: #6366F1;
+  color: #FFFFFF;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .calendarHeader {
+    margin-bottom: 20px;
+  }
+
+  .yearTitle {
+    font-size: 20px;
+  }
+
+  .navButton {
+    font-size: 20px;
+    padding: 6px 12px;
+    min-width: 40px;
+  }
+
+  .monthsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .monthCell {
+    min-height: 90px;
+    padding: 12px;
+  }
+
+  .monthName {
+    font-size: 13px;
+  }
+
+  .monthValue {
+    font-size: 14px;
+  }
+
+  .yearSelector {
+    gap: 6px;
+  }
+
+  .yearButton {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Dark Mode */
+:global(.dark) .yearTitle {
+  color: #F9FAFB;
+}
+
+:global(.dark) .navButton {
+  color: #818CF8;
+}
+
+:global(.dark) .navButton:hover:not(:disabled) {
+  background-color: #374151;
+}
+
+:global(.dark) .monthCell {
+  background-color: #1F2937;
+  border-color: #374151;
+}
+
+:global(.dark) .monthCell:hover {
+  border-color: #6366F1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+:global(.dark) .monthCell.hasValue {
+  border-color: #10B981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+:global(.dark) .monthName {
+  color: #D1D5DB;
+}
+
+:global(.dark) .monthValue {
+  color: #F9FAFB;
+}
+
+:global(.dark) .monthEmpty {
+  color: #6B7280;
+}
+
+:global(.dark) .yearSelector {
+  border-top-color: #374151;
+}
+
+:global(.dark) .yearButton {
+  border-color: #374151;
+  color: #9CA3AF;
+}
+
+:global(.dark) .yearButton:hover {
+  border-color: #6366F1;
+  color: #818CF8;
+}
+
+:global(.dark) .yearButton.active {
+  background-color: #6366F1;
+  border-color: #6366F1;
+  color: #FFFFFF;
+}
+

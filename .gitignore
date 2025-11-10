@@ -10,8 +10,19 @@ mobile/.expo/
 # Expo
 .expo/
 .expo-shared/
+/node_modules
 
 # Sistema
 Thumbs.db
+
+# Database
+*.db
+*.db-journal
+apps/backend/prisma/dev.db
+apps/backend/prisma/dev.db-journal
+apps/backend/data/
+
+# Prisma
+node_modules/.prisma/
 Desktop.ini
 

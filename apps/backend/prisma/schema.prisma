@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+  // Para PostgreSQL em produção, use:
+  // provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+model Debt {
+  id                  String   @id @default(cuid())
+  creditor            String
+  totalValue          Float    @default(0)
+  paidValue           Float    @default(0)
+  installments        Int      @default(0)
+  paidInstallments    Int      @default(0)
+  installmentValue    Float    @default(0)
+  dueDay              Int?
+  firstInstallmentValue Float?
+  notes               String   @default("")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("debts")
+}
+
+model Salary {
+  id            String   @id @default("single")
+  monthlyIncome Float    @default(0)
+  discounts     Float    @default(0)
+  thirteenth    Boolean  @default(false)
+  vacation      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("salaries")
+}
+
+model Savings {
+  id           String    @id @default("single")
+  savedBalance Float     @default(0)
+  currentGoal  Float     @default(0)
+  lastSavedAt  DateTime?
+  notes        String    @default("")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("savings")
+}
+
+model Month {
+  id        String   @id
+  label     String
+  total     Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("months")
+}
+
+model UserPreferences {
+  id              String   @id @default("single")
+  debtsStatusFilter String  @default("all")
+  debtsSortBy      String   @default("status")
+  debtsViewMode    String   @default("list")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("user_preferences")
+}
+
+model QuickAction {
+  id        String   @id @default(cuid())
+  label     String
+  icon      String
+  route     String
+  order     Int      @default(0)
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("quick_actions")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String   @default("")
+  email     String   @unique
+  password  String   // Hash da senha
+  phone     String?  @default("")
+  avatar    String?  @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+

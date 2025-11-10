@@ -5,10 +5,18 @@ Aplicação pessoal para acompanhar dívidas, salário, metas de poupança e pla
 ## Estrutura
 
 ```
+<<<<<<< Updated upstream
 Projeto Planilha/
 ├── backend/   # API Node/Express
 ├── mobile/    # App Expo (React Native)
 └── shared/    # Espaço reservado para módulos compartilhados futuros
+=======
+projeto-financeiro/
+├── apps/
+│   ├── backend/     # API Node.js com Express e Prisma
+│   └── mobile/      # Aplicação web (Next.js)
+└── package.json     # Configuração do monorepo
+>>>>>>> Stashed changes
 ```
 
 ## Backend (Node.js + Express)
@@ -31,29 +39,53 @@ Projeto Planilha/
 
 3. Execute em modo desenvolvimento (com recarga automática):
 
+<<<<<<< Updated upstream
    ```bash
    npm run dev
    ```
+=======
+1. Crie um arquivo `.env` em `apps/backend/`:
+```env
+DATABASE_URL="file:./dev.db"
+PORT=3333
+NODE_ENV=development
+```
+>>>>>>> Stashed changes
 
    A API fica disponível em `http://localhost:3333`. Endpoints principais:
 
+<<<<<<< Updated upstream
    - `GET /api/dados` – retorna dívidas, salário, poupança, meses e um resumo calculado.
    - `POST /api/dividas` – cria/atualiza uma dívida.
    - `DELETE /api/dividas/:id` – remove uma dívida.
    - `POST /api/salario` – atualiza salário/descontos.
    - `POST /api/poupanca` – atualiza dados da poupança.
    - `POST /api/meses` – atualiza totais planejados por mês.
+=======
+3. Execute as migrations:
+```bash
+cd apps/backend
+npm run prisma:migrate
+npm run prisma:seed
+```
+>>>>>>> Stashed changes
 
    Os dados ficam gravados em `backend/data/store.json`. O arquivo é criado automaticamente com valores iniciais iguais à planilha.
 
 ## Frontend (Expo / React Native)
 
+<<<<<<< Updated upstream
 1. Instale dependências (já concluído na criação do projeto, mas repita se necessário):
 
    ```bash
    cd mobile
    npm install
    ```
+=======
+**Apenas backend:** `npm run backend:dev`
+
+**Apenas mobile:** `npm run mobile:dev`
+>>>>>>> Stashed changes
 
 2. Informe a URL da API através de variável pública do Expo. Crie um arquivo `mobile/.env`:
 
@@ -90,5 +122,67 @@ As ações exibem mensagens rápidas de feedback e atualizam os dados automatica
 
 ---
 
+<<<<<<< Updated upstream
 Qualquer dúvida ou nova funcionalidade que quiser adicionar, é só pedir! :)
 
+=======
+### Backend (`/apps/backend`)
+- API REST com Express
+- Prisma para ORM
+- SQLite como banco de dados
+- Endpoints para gerenciar dívidas, salário, poupança e planejamento
+
+### Mobile (`/apps/mobile`)
+- App React Native multiplataforma
+- Navegação com React Navigation
+- Dashboard com gráficos
+- Integração com API do backend
+
+## 🔧 Desenvolvimento
+
+### Adicionar nova dependência
+
+**No workspace específico:**
+```bash
+cd apps/backend
+npm install nome-do-pacote
+
+# ou
+cd apps/mobile
+npm install nome-do-pacote
+```
+
+**Na raiz (dependência compartilhada):**
+```bash
+npm install nome-do-pacote -w
+```
+
+### Executar comandos em workspace específico
+
+```bash
+# Backend
+cd apps/backend
+npm run dev
+
+# Mobile
+cd apps/mobile
+npm run dev
+```
+
+## 📝 Documentação Adicional
+
+- [Backend Setup](./apps/backend/SETUP.md) - Guia detalhado de configuração do SQLite
+- [Backend README](./apps/backend/README.md) - Documentação da API
+
+## 🤝 Contribuindo
+
+1. Faça fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+ISC
+>>>>>>> Stashed changes
